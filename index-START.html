@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="65" class="key">
+        <code>A</code>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <code>S</code>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="68" class="key">
+        <code>D</code>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="70" class="key">
+        <code>F</code>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <code>G</code>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <code>H</code>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <code>J</code>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <code>K</code>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="76" class="key">
+        <code>L</code>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+
+    <script>
+      window.addEventListener('keydown', function (event) {
+        const audio = document.querySelector(
+          `audio[data-key="${event.keyCode}"`
+        );
+        const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+        if (!audio) return; // stop the function from running all together
+        audio.currentTime = 0; // rewind to the start
+        // currentTime attribute - audio.currentTime/ video.current Time = x(s): set or return the current position (in second)
+
+        audio.play();
+        key.classList.add('playing');
+
+        // console.log(keys);
+        function removeTransition(event) {
+          if (event.propertyName !== 'transform') return; // skip this condition if keypress.propertyName is not equal to 'transform'
+          this.classList.remove('playing'); // this is the key and clear the class 'playing'
+        }
+
+        const keys = document.querySelectorAll('.key');
+        keys.forEach((key) =>
+          key.addEventListener('transitionend', removeTransition)
+        );
+        // forEach loop
+      });
+    </script>
+  </body>
+</html>
